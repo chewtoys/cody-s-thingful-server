@@ -58,6 +58,17 @@ const ThingsService = {
       .groupBy('rev.id', 'usr.id');
   },
 
+  insertReview(db, newReview) {
+    return db
+      .insert(newReview)
+      .into('thingful_reviews')
+      .returning('*')
+      .then(([review]) => review)
+      .then(review =>
+        ThingsService.getById(db, review.id)
+      )
+  },
+
   serializeThings(things) {
     return things.map(this.serializeThing);
   },

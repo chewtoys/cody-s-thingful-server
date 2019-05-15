@@ -2,8 +2,7 @@
 const express = require('express');
 const path = require('path');
 const ReviewsService = require('./reviews-service');
-const { requireAuth } = require('../middleware/basic-auth');
-
+const { requireAuth } = require('../middleware/jwt-auth');
 const reviewsRouter = express.Router();
 const jsonBodyParser = express.json();
 
@@ -29,7 +28,7 @@ reviewsRouter
         res
           .status(201)
           .location(path.posix.join(req.originalUrl, `/${review.id}`))
-          .json(ReviewsService.serializeThing(review));
+          .json(ReviewsService.serializeReview(review));
       })
       .catch(next);
   });
